@@ -1,0 +1,35 @@
+<resources>
+    <string name="app_name">WeatherStation</string>
+
+    <string-array name="sensor_arrays">
+        <item>DHT</item>
+        <item>BMP</item>
+    </string-array>
+
+    <string-array name="quantity_arrays_dht">
+        <item>temperature</item>
+        <item>humidity</item>
+    </string-array>
+
+    <string-array name="quantity_arrays_bmp">
+        <item>temperature</item>
+        <item>pressure</item>
+    </string-array>
+
+    <string-array name="unit_arrays_temperature">
+        <item>°C</item>
+        <item>°F</item>
+        <item>K</item>
+    </string-array>
+
+    <string-array name="unit_arrays_pressure">
+        <item>Pa</item>
+        <item>hPa</item>
+        <item>Psi</item>
+    </string-array>
+
+    <string-array name="unit_arrays_humidity">
+        <item>%</item>
+    </string-array>
+
+</resources>
