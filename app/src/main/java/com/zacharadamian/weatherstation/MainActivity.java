@@ -1,6 +1,7 @@
 package com.zacharadamian.weatherstation;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -10,7 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
@@ -27,12 +28,14 @@ public class MainActivity extends AppCompatActivity {
 
     Spinner spSensor, spQuantity, spUnit;
     Button btnGo;
+    Button btnChart;
     TextView txtData;
     ArrayAdapter<CharSequence> adapter;
 
     private void initView() {
         txtData = this.findViewById(R.id.txtData);
         btnGo = findViewById(R.id.btnGo);
+        btnChart = findViewById(R.id.btnBarChart);
         spSensor = findViewById(R.id.spSensor);
         spQuantity = findViewById(R.id.spQuantity);
         spUnit = findViewById(R.id.spUnit);
@@ -105,6 +108,16 @@ public class MainActivity extends AppCompatActivity {
                 connectMySql.execute("");
             }
         });
+        btnChart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            openChartActivity();
+            }
+        });
+    }
+    public void openChartActivity(){
+        Intent intent = new Intent(this, ChartActivity.class);
+        startActivity(intent);
     }
 
 
@@ -141,7 +154,6 @@ public class MainActivity extends AppCompatActivity {
                 ResultSet rs = st.executeQuery(sqlQuery);
                 Statement st2 = con.createStatement();
                 ResultSet rs2 = st2.executeQuery(sqlDate);
-
                 while (rs2.next() & rs.next()) {
                     result.append(rs2.getString(1)).append("\n").append(rs.getString(1)).append(sensorUnit);
                 }
