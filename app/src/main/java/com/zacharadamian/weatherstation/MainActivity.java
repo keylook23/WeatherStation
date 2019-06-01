@@ -11,13 +11,12 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.Statement;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity  {
 
     //    private static final String url = "jdbc:mysql://192.168.0.178:3306/weatherstation";
 //    private static final String user = "pi";
@@ -32,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
     TextView txtData;
     ArrayAdapter<CharSequence> adapter;
 
-    private void initView() {
+  private void initView() {
         txtData = this.findViewById(R.id.txtData);
         btnGo = findViewById(R.id.btnGo);
         btnChart = findViewById(R.id.btnBarChart);
@@ -125,22 +124,15 @@ public class MainActivity extends AppCompatActivity {
     private class ConnectMySql extends AsyncTask<String, Void, String> {
         String res = "";
 
-//        @Override
-//        protected void onPreExecute() {
-//            super.onPreExecute();
-//            Toast.makeText(MainActivity.this, "Please wait...", Toast.LENGTH_SHORT)
-//                    .show();
-//        }
-
         @Override
         protected String doInBackground(String... params) {
-            String sqlDate, sensorType, sensorQuantity, sensorUnit, sqlQuery;
+            String sqlDate, sensorType, sensorQuantity, sensorUnit;
 
             sensorType = spSensor.getSelectedItem().toString();
             sensorQuantity = spQuantity.getSelectedItem().toString();
             sensorUnit = spUnit.getSelectedItem().toString();
 
-            sqlQuery = String.format("select %s from results where sensor = '%s' order by ID desc limit 1",
+            String sqlQuery = String.format("select %s from results where sensor = '%s' order by ID desc limit 1",
                     sensorQuantity, sensorType);
 
             sqlDate = String.format("select current_dt from results where sensor = '%s' order by ID desc limit 1",
@@ -166,8 +158,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        protected void onPostExecute(String result) {
-            txtData.setText(result);
+        protected void onPostExecute(String result) { txtData.setText(result);
         }
     }
 }

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
+    android:orientation="vertical"
+    android:padding="5dp"
+    android:background="@drawable/background">
+
+    <Spinner
+        android:id="@+id/spSensor"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_margin="2dp" />
+
+    <Spinner
+        android:id="@+id/spQuantity"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_margin="2dp" />
+
+    <Spinner
+        android:id="@+id/spUnit"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_margin="2dp" />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/linechart"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"></com.github.mikephil.charting.charts.LineChart>
+</LinearLayout>

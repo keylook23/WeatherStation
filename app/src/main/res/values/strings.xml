@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">WeatherStation</string>
+    <string name="ok">OK!</string>
+    <string name="WYKRES">CHART</string>
 
     <string-array name="sensor_arrays">
         <item>DHT</item>
