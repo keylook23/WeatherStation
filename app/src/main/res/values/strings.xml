@@ -4,8 +4,8 @@
     <string name="WYKRES">CHART</string>
 
     <string-array name="sensor_arrays">
-        <item>DHT</item>
-        <item>BMP</item>
+        <item>dht</item>
+        <item>bmp</item>
     </string-array>
 
     <string-array name="quantity_arrays_dht">

@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "306638405744",
+    "firebase_url": "https://weatherstation-bd5a7.firebaseio.com",
+    "project_id": "weatherstation-bd5a7",
+    "storage_bucket": "weatherstation-bd5a7.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:306638405744:android:5eb1b3c49cddc2cb",
+        "android_client_info": {
+          "package_name": "com.zacharadamian.weatherstation"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "306638405744-qms1fohsghq5h4064ei63ltoe3nid7mo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCk7xL-ul_6KqxYutuFyMH8ywlC1YuFNxQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "306638405744-qms1fohsghq5h4064ei63ltoe3nid7mo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

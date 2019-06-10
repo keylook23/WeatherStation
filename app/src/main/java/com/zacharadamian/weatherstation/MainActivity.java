@@ -1,37 +1,34 @@
 package com.zacharadamian.weatherstation;
 
-import android.annotation.SuppressLint;
+import android.app.DownloadManager;
 import android.content.Intent;
-import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.Statement;
 
-public class MainActivity extends AppCompatActivity  {
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
 
-    //    private static final String url = "jdbc:mysql://192.168.0.178:3306/weatherstation";
-//    private static final String user = "pi";
-//    private static final String pass = "zaq12wsx";
-    private static final String url = "jdbc:mysql://85.10.205.173:3306/weatherstation";
-    private static final String user = "weatherstationpi";
-    private static final String pass = "weatherstationpi";
-
+public class MainActivity extends AppCompatActivity {
     Spinner spSensor, spQuantity, spUnit;
     Button btnGo;
     Button btnChart;
     TextView txtData;
     ArrayAdapter<CharSequence> adapter;
+    private DatabaseReference mDatabase;
 
-  private void initView() {
+    private void initView() {
         txtData = this.findViewById(R.id.txtData);
         btnGo = findViewById(R.id.btnGo);
         btnChart = findViewById(R.id.btnBarChart);
@@ -46,13 +43,14 @@ public class MainActivity extends AppCompatActivity  {
         setContentView(R.layout.activity_main);
         initView();
 
+
         adapter = ArrayAdapter.createFromResource(this,
                 R.array.sensor_arrays, android.R.layout.simple_dropdown_item_1line);
         spSensor.setAdapter(adapter);
         spSensor.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                if (spSensor.getSelectedItem().equals("DHT")) {
+                if (spSensor.getSelectedItem().equals("dht")) {
                     adapter = ArrayAdapter.createFromResource(getApplicationContext(),
                             R.array.quantity_arrays_dht, android.R.layout.simple_dropdown_item_1line);
                     spQuantity.setAdapter(adapter);
@@ -68,11 +66,12 @@ public class MainActivity extends AppCompatActivity  {
                             }
                             spUnit.setAdapter(adapter);
                         }
+
                         @Override
                         public void onNothingSelected(AdapterView<?> parent) {
                         }
                     });
-                } else if (spSensor.getSelectedItem().equals("BMP")) {
+                } else if (spSensor.getSelectedItem().equals("bmp")) {
                     adapter = ArrayAdapter.createFromResource(getApplicationContext(),
                             R.array.quantity_arrays_bmp, android.R.layout.simple_dropdown_item_1line);
                     spQuantity.setAdapter(adapter);
@@ -88,12 +87,14 @@ public class MainActivity extends AppCompatActivity  {
                             }
                             spUnit.setAdapter(adapter);
                         }
+
                         @Override
                         public void onNothingSelected(AdapterView<?> parent) {
                         }
                     });
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -103,62 +104,39 @@ public class MainActivity extends AppCompatActivity  {
         btnGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ConnectMySql connectMySql = new ConnectMySql();
-                connectMySql.execute("");
+                final String sensorType, sensorQuantity, sensorUnit;
+                sensorType = spSensor.getSelectedItem().toString();
+                sensorQuantity = spQuantity.getSelectedItem().toString();
+                sensorUnit = spUnit.getSelectedItem().toString();
+
+                mDatabase = FirebaseDatabase.getInstance().getReference().child("sensors").child(sensorType);
+                Query last = mDatabase.orderByKey().limitToLast(1);
+                mDatabase.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        String key = mDatabase.getKey();
+                        txtData.setText(key);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                    }
+                });
             }
         });
+
+
         btnChart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-            openChartActivity();
+                openChartActivity();
             }
         });
     }
-    public void openChartActivity(){
+
+    public void openChartActivity() {
         Intent intent = new Intent(this, ChartActivity.class);
         startActivity(intent);
-    }
-
-
-    @SuppressLint("StaticFieldLeak")
-    private class ConnectMySql extends AsyncTask<String, Void, String> {
-        String res = "";
-
-        @Override
-        protected String doInBackground(String... params) {
-            String sqlDate, sensorType, sensorQuantity, sensorUnit;
-
-            sensorType = spSensor.getSelectedItem().toString();
-            sensorQuantity = spQuantity.getSelectedItem().toString();
-            sensorUnit = spUnit.getSelectedItem().toString();
-
-            String sqlQuery = String.format("select %s from results where sensor = '%s' order by ID desc limit 1",
-                    sensorQuantity, sensorType);
-
-            sqlDate = String.format("select current_dt from results where sensor = '%s' order by ID desc limit 1",
-                    sensorType);
-
-            try {
-                Class.forName("com.mysql.jdbc.Driver");
-                Connection con = DriverManager.getConnection(url, user, pass);
-                StringBuilder result = new StringBuilder();
-                Statement st = con.createStatement();
-                ResultSet rs = st.executeQuery(sqlQuery);
-                Statement st2 = con.createStatement();
-                ResultSet rs2 = st2.executeQuery(sqlDate);
-                while (rs2.next() & rs.next()) {
-                    result.append(rs2.getString(1)).append("\n").append(rs.getString(1)).append(sensorUnit);
-                }
-                res = result.toString();
-            } catch (Exception e) {
-                e.printStackTrace();
-                res = e.toString();
-            }
-            return res;
-        }
-
-        @Override
-        protected void onPostExecute(String result) { txtData.setText(result);
-        }
     }
 }
