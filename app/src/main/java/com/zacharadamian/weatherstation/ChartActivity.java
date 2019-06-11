@@ -6,16 +6,24 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
+
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 import com.github.mikephil.charting.interfaces.datasets.ILineDataSet;
+
 import java.util.ArrayList;
 
 public class ChartActivity extends AppCompatActivity {
     Spinner spSensor, spQuantity, spUnit;
     ArrayAdapter<CharSequence> adapter;
+
+    private void initView() {
+        spSensor = findViewById(R.id.spSensor);
+        spQuantity = findViewById(R.id.spQuantity);
+        spUnit = findViewById(R.id.spUnit);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +53,7 @@ public class ChartActivity extends AppCompatActivity {
                             }
                             spUnit.setAdapter(adapter);
                         }
+
                         @Override
                         public void onNothingSelected(AdapterView<?> parent) {
                         }
@@ -65,12 +74,14 @@ public class ChartActivity extends AppCompatActivity {
                             }
                             spUnit.setAdapter(adapter);
                         }
+
                         @Override
                         public void onNothingSelected(AdapterView<?> parent) {
                         }
                     });
                 }
             }
+
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
 
@@ -104,9 +115,5 @@ public class ChartActivity extends AppCompatActivity {
 
         mChart.setData(data);
     }
-    private void initView() {
-        spSensor = findViewById(R.id.spSensor);
-        spQuantity = findViewById(R.id.spQuantity);
-        spUnit = findViewById(R.id.spUnit);
-    }
+
 }

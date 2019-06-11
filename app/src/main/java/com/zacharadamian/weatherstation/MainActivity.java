@@ -1,11 +1,9 @@
 package com.zacharadamian.weatherstation;
 
-import android.app.DownloadManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -22,14 +20,14 @@ import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
     Spinner spSensor, spQuantity, spUnit;
-    Button btnGo;
-    Button btnChart;
-    TextView txtData;
+    Button btnGo, btnChart;
+    TextView txtData, txtTime;
     ArrayAdapter<CharSequence> adapter;
     private DatabaseReference mDatabase;
 
     private void initView() {
         txtData = this.findViewById(R.id.txtData);
+        txtTime= this.findViewById(R.id.txtTime);
         btnGo = findViewById(R.id.btnGo);
         btnChart = findViewById(R.id.btnBarChart);
         spSensor = findViewById(R.id.spSensor);
@@ -111,21 +109,23 @@ public class MainActivity extends AppCompatActivity {
 
                 mDatabase = FirebaseDatabase.getInstance().getReference().child("sensors").child(sensorType);
                 Query last = mDatabase.orderByKey().limitToLast(1);
-                mDatabase.addValueEventListener(new ValueEventListener() {
+                last.addValueEventListener(new ValueEventListener(){
                     @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        String key = mDatabase.getKey();
-                        txtData.setText(key);
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        for(DataSnapshot data: dataSnapshot.getChildren()){
+                            String result=data.child(sensorQuantity).getValue().toString();
+                            String time=data.child("time").getValue().toString();
+                            txtData.setText(result+" "+sensorUnit);
+                            txtTime.setText(time);
+                        }
                     }
-
                     @Override
-                    public void onCancelled(@NonNull DatabaseError databaseError) {
-
+                    public void onCancelled(DatabaseError databaseError) {
+                        txtData.setText("error");
                     }
                 });
             }
         });
-
 
         btnChart.setOnClickListener(new View.OnClickListener() {
             @Override
