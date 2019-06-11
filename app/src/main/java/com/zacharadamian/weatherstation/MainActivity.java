@@ -19,7 +19,9 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity {
-    Spinner spSensor, spQuantity, spUnit;
+    Spinner spSensor;
+    Spinner spQuantity;
+    Spinner spUnit;
     Button btnGo, btnChart;
     TextView txtData, txtTime;
     ArrayAdapter<CharSequence> adapter;
@@ -27,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void initView() {
         txtData = this.findViewById(R.id.txtData);
-        txtTime= this.findViewById(R.id.txtTime);
+        txtTime = this.findViewById(R.id.txtTime);
         btnGo = findViewById(R.id.btnGo);
         btnChart = findViewById(R.id.btnBarChart);
         spSensor = findViewById(R.id.spSensor);
@@ -108,17 +110,18 @@ public class MainActivity extends AppCompatActivity {
                 sensorUnit = spUnit.getSelectedItem().toString();
 
                 mDatabase = FirebaseDatabase.getInstance().getReference().child("sensors").child(sensorType);
-                Query last = mDatabase.orderByKey().limitToLast(1);
-                last.addValueEventListener(new ValueEventListener(){
-                    @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
-                        for(DataSnapshot data: dataSnapshot.getChildren()){
-                            String result=data.child(sensorQuantity).getValue().toString();
-                            String time=data.child("time").getValue().toString();
-                            txtData.setText(result+" "+sensorUnit);
-                            txtTime.setText(time);
+                    Query last = mDatabase.orderByKey().limitToLast(1);
+                last.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                                String result = ds.child(sensorQuantity).getValue().toString();
+                                String time = ds.child("time").getValue().toString();
+                                txtData.setText(result + " " + sensorUnit);
+                                txtTime.setText(time);
+                            }
                         }
-                    }
+
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
                         txtData.setText("error");

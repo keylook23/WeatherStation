@@ -7,24 +7,6 @@
     android:padding="5dp"
     android:background="@drawable/background">
 
-    <Spinner
-        android:id="@+id/spSensor"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_margin="2dp" />
-
-    <Spinner
-        android:id="@+id/spQuantity"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_margin="2dp" />
-
-    <Spinner
-        android:id="@+id/spUnit"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        android:layout_margin="2dp" />
-
     <com.github.mikephil.charting.charts.LineChart
         android:id="@+id/linechart"
         android:layout_width="match_parent"
