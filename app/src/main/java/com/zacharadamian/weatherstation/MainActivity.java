@@ -31,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         txtData = this.findViewById(R.id.txtData);
         txtTime = this.findViewById(R.id.txtTime);
         btnGo = findViewById(R.id.btnGo);
-        btnChart = findViewById(R.id.btnBarChart);
+        btnChart = findViewById(R.id.btnChart);
         spSensor = findViewById(R.id.spSensor);
         spQuantity = findViewById(R.id.spQuantity);
         spUnit = findViewById(R.id.spUnit);
