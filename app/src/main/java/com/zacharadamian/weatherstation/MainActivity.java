@@ -27,7 +27,7 @@ public class MainActivity extends AppCompatActivity {
     ArrayAdapter<CharSequence> adapter;
     private DatabaseReference mDatabase;
 
-    private void initView() {
+    public void initView() {
         txtData = this.findViewById(R.id.txtData);
         txtTime = this.findViewById(R.id.txtTime);
         btnGo = findViewById(R.id.btnGo);
@@ -38,11 +38,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         initView();
-
 
         adapter = ArrayAdapter.createFromResource(this,
                 R.array.sensor_arrays, android.R.layout.simple_dropdown_item_1line);
@@ -110,17 +109,17 @@ public class MainActivity extends AppCompatActivity {
                 sensorUnit = spUnit.getSelectedItem().toString();
 
                 mDatabase = FirebaseDatabase.getInstance().getReference().child("sensors").child(sensorType);
-                    Query last = mDatabase.orderByKey().limitToLast(1);
+                Query last = mDatabase.orderByKey().limitToLast(1);
                 last.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                            for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                                String result = ds.child(sensorQuantity).getValue().toString();
-                                String time = ds.child("time").getValue().toString();
-                                txtData.setText(result + " " + sensorUnit);
-                                txtTime.setText(time);
-                            }
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        for (DataSnapshot ds : dataSnapshot.getChildren()) {
+                            String result = ds.child(sensorQuantity).getValue().toString();
+                            String time = ds.child("time").getValue().toString();
+                            txtData.setText(result + " " + sensorUnit);
+                            txtTime.setText(time);
                         }
+                    }
 
                     @Override
                     public void onCancelled(DatabaseError databaseError) {
@@ -139,7 +138,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openChartActivity() {
+        String sensorType = spSensor.getSelectedItem().toString();
+        String sensorQuantity = spQuantity.getSelectedItem().toString();
         Intent intent = new Intent(this, ChartActivity.class);
+        intent.putExtra("sensorType", sensorType);
+        intent.putExtra("sensorQuantity", sensorQuantity);
         startActivity(intent);
     }
 }
