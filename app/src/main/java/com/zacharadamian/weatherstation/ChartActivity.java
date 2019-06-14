@@ -74,7 +74,6 @@ public class ChartActivity extends AppCompatActivity {
                             mChart.setData(data);
                         }
                     }
-
                     @Override
                     public void onCancelled(@NonNull DatabaseError databaseError) {
                     }

@@ -21,11 +21,13 @@ import com.google.firebase.database.ValueEventListener;
 public class MainActivity extends AppCompatActivity {
     Spinner spSensor;
     Spinner spQuantity;
-    Spinner spUnit;
+    static Spinner spUnit;
     Button btnGo, btnChart;
-    TextView txtData, txtTime;
+    static TextView txtData;
+    TextView txtTime;
     ArrayAdapter<CharSequence> adapter;
     private DatabaseReference mDatabase;
+
 
     public void initView() {
         txtData = this.findViewById(R.id.txtData);
@@ -103,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
         btnGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 final String sensorType, sensorQuantity, sensorUnit;
                 sensorType = spSensor.getSelectedItem().toString();
                 sensorQuantity = spQuantity.getSelectedItem().toString();
@@ -116,7 +119,32 @@ public class MainActivity extends AppCompatActivity {
                         for (DataSnapshot ds : dataSnapshot.getChildren()) {
                             String result = ds.child(sensorQuantity).getValue().toString();
                             String time = ds.child("time").getValue().toString();
-                            txtData.setText(result + " " + sensorUnit);
+                            String convert = null;
+//                            convert();
+
+                            if (spUnit.getSelectedItem().equals("°C")) {
+                                double convertResult = Double.parseDouble(result);
+                                convert = String.valueOf(convertResult);
+                            } else if (spUnit.getSelectedItem().equals("°F")) {
+                                double convertResult = Double.parseDouble(result) * 9 / 5 + 32;
+                                convert = String.valueOf(convertResult);
+                            } else if (spUnit.getSelectedItem().equals("K")) {
+                                double convertResult = Double.parseDouble(result) + 273.15;
+                                convert = String.valueOf(convertResult);
+                            } else if (spUnit.getSelectedItem().equals("Pa")) {
+                                double convertResult = Double.parseDouble(result);
+                                convert = String.valueOf(convertResult);
+                            } else if (spUnit.getSelectedItem().equals("hPa")) {
+                                double convertResult = Double.parseDouble(result) / 100;
+                                convert = String.valueOf(convertResult);
+                            } else if (spUnit.getSelectedItem().equals("Psi")) {
+                                double convertResult = Double.parseDouble(result) / 6894.75729;
+                                convert = String.valueOf(convertResult);
+                            } else if (spUnit.getSelectedItem().equals("%")) {
+                                double convertResult = Double.parseDouble(result);
+                                convert = String.valueOf(convertResult);
+                            }
+                            txtData.setText(convert + " " + sensorUnit);
                             txtTime.setText(time);
                         }
                     }
@@ -137,12 +165,39 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+//    public void convert() {
+//        if (spUnit.getSelectedItem().equals("°C")) {
+//            double convertResult = Double.parseDouble(result);
+//            convert = String.valueOf(convertResult);
+//        } else if (spUnit.getSelectedItem().equals("°F")) {
+//            double convertResult = Double.parseDouble(result) * 9 / 5 + 32;
+//            convert = String.valueOf(convertResult);
+//        } else if (spUnit.getSelectedItem().equals("K")) {
+//            double convertResult = Double.parseDouble(result) + 273.15;
+//            convert = String.valueOf(convertResult);
+//        } else if (spUnit.getSelectedItem().equals("Pa")) {
+//            double convertResult = Double.parseDouble(result);
+//            convert = String.valueOf(convertResult);
+//        } else if (spUnit.getSelectedItem().equals("hPa")) {
+//            double convertResult = Double.parseDouble(result) / 100;
+//            convert = String.valueOf(convertResult);
+//        } else if (spUnit.getSelectedItem().equals("Psi")) {
+//            double convertResult = Double.parseDouble(result) / 6894.75729;
+//            convert = String.valueOf(convertResult);
+//        } else if (spUnit.getSelectedItem().equals("%")) {
+//            double convertResult = Double.parseDouble(result);
+//            convert = String.valueOf(convertResult);
+//        }
+//    }
+
     public void openChartActivity() {
         String sensorType = spSensor.getSelectedItem().toString();
         String sensorQuantity = spQuantity.getSelectedItem().toString();
+        String sensorUnit = spUnit.getSelectedItem().toString();
         Intent intent = new Intent(this, ChartActivity.class);
         intent.putExtra("sensorType", sensorType);
         intent.putExtra("sensorQuantity", sensorQuantity);
+        intent.putExtra("sensorUnit", sensorUnit);
         startActivity(intent);
     }
 }
