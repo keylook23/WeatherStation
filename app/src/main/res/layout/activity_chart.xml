@@ -2,40 +2,38 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#00BCD4"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
-    android:background="#009688"
     android:padding="5dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="70dp"
-        android:background="#009688"
+        android:background="#00BCD4"
         android:fitsSystemWindows="true"
         android:orientation="horizontal"
         android:padding="5dp">
 
         <TextView
             android:id="@+id/Last"
-            android:layout_width="100dp"
-            android:layout_height="wrap_content"
-            android:text="          LAST"
+            android:layout_width="120dp"
+            android:layout_height="match_parent"
+            android:text="@string/last"
             android:textColor="@color/common_google_signin_btn_text_dark_focused"
-            android:textSize="14sp" />
+            android:textSize="40sp" />
 
         <Spinner
             android:id="@+id/spResults"
-            android:layout_width="100dp"
-            android:layout_height="50dp" />
+            android:layout_width="120dp"
+            android:layout_height="match_parent" />
 
         <Button
             android:id="@+id/btnGo"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:text="OK!"
-            android:background="@drawable/button"
-            android:textColorHint="#FFC107" />
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/holo_orange_light"
+            android:text="@string/view_chart" />
 
     </LinearLayout>
 
@@ -43,8 +41,7 @@
         android:id="@+id/linechart"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#009688">
-
+        android:background="#00BCD4">
     </com.github.mikephil.charting.charts.LineChart>
 
 </LinearLayout>

@@ -41,7 +41,6 @@ public class ChartActivity extends AppCompatActivity {
         adapter = ArrayAdapter.createFromResource(this, R.array.results_arrays, android.R.layout.simple_dropdown_item_1line);
         spResults.setAdapter(adapter);
 
-
         btnGo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -64,6 +63,7 @@ public class ChartActivity extends AppCompatActivity {
 
                             mChart.setDragEnabled(true);
                             mChart.setScaleEnabled(false);
+
                             yValues.add(new Entry(i, Float.parseFloat(result)));
 
                             LineDataSet set1 = new LineDataSet(yValues, sensorQuantity);
@@ -75,6 +75,7 @@ public class ChartActivity extends AppCompatActivity {
                             LineData data = new LineData(dataSets);
                             mChart.setData(data);
                         }
+                        mChart.invalidate();
                     }
 
                     @Override
@@ -83,6 +84,5 @@ public class ChartActivity extends AppCompatActivity {
                 });
             }
         });
-
     }
 }

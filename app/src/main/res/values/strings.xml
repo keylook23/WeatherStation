@@ -2,6 +2,10 @@
     <string name="app_name">WeatherStation</string>
     <string name="ok">OK!</string>
     <string name="WYKRES">CHART</string>
+    <string name="view_chart">View Chart</string>
+    <string name="view">View</string>
+    <string name="chart">Chart</string>
+    <string name="last">LAST</string>
 
     <string-array name="sensor_arrays">
         <item>dht</item>

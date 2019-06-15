@@ -3,16 +3,15 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#009688"
+    android:background="#00BCD4"
     android:fitsSystemWindows="true"
     android:orientation="vertical"
     android:padding="5dp">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#009688"
+        android:background="#00BCD4"
         android:fitsSystemWindows="true"
         android:orientation="vertical"
         android:padding="5dp">
@@ -40,11 +39,10 @@
             tools:text="@tools:sample/date/ddmmyy" />
     </LinearLayout>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="110dp"
-        android:background="#009688"
+        android:background="#00BCD4"
         android:fitsSystemWindows="true"
         android:orientation="horizontal"
         android:padding="5dp">
@@ -68,11 +66,10 @@
             android:layout_margin="2dp" />
     </LinearLayout>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:tools="http://schemas.android.com/tools"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="#009688"
+        android:background="#00BCD4"
         android:fitsSystemWindows="true"
         android:orientation="vertical"
         android:padding="5dp">
@@ -83,9 +80,9 @@
             android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
             android:layout_margin="2dp"
-            android:background="@drawable/button"
+            android:background="@android:color/holo_orange_light"
             android:minWidth="250dp"
-            android:text="OK!" />
+            android:text="@string/view" />
 
         <Button
             android:id="@+id/btnChart"
@@ -93,9 +90,9 @@
             android:layout_height="100dp"
             android:layout_gravity="center_horizontal"
             android:layout_margin="2dp"
-            android:background="@drawable/button"
+            android:background="@android:color/holo_orange_light"
             android:minWidth="250dp"
-            android:text="Chart" />
+            android:text="@string/chart" />
     </LinearLayout>
 
 </LinearLayout>
