@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name" translatable="false">Wetterstation</string>
-    <string name="view_chart" translatable="false">Siehe die Grafik</string>
-    <string name="view" translatable="false">Sehen</string>
-    <string name="chart" translatable="false">der Graph</string>
+    <string name="view_chart" translatable="false">Schau auf die Grafik</string>
+    <string name="view" translatable="false">Anblick</string>
+    <string name="chart" translatable="false">Grafik</string>
     <string name="last" translatable="false">LETZTE</string>
 
     <string-array name="sensor_arrays">
@@ -11,13 +11,13 @@
     </string-array>
 
     <string-array name="quantity_arrays_dht">
-        <item>temperatur</item>
-        <item>luftfeuchtigkeit</item>
+        <item>Temperatur</item>
+        <item>Luftfeuchtigkeit</item>
     </string-array>
 
     <string-array name="quantity_arrays_bmp">
-        <item>temperatur</item>
-        <item>luftdruck</item>
+        <item>Temperatur</item>
+        <item>Luftdruck</item>
     </string-array>
 
     <string-array name="unit_arrays_temperature">
