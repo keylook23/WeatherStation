@@ -1,0 +1,15 @@
+Weather Station jest aplikacją która wyświetla odczyt wartości poszczególnych wielkości fizycznych.
+
+W aplikacji są dostępne odczyty z dwóch czujników DHT11 i BMP180.
+
+DHT11 zapewnia pomiar temperatury i wilgotności.
+
+BMP180 również posiara posiada pomiar temperatury dużo bardziej dokładny niż DHT oraz pomiar ciśnienia.
+
+Każda wielkość fizyczna posiada różne jednostki które może sobie użytkownik wedle własnego uznania zmieniać.
+
+Projekt został także wyposażony w wykresy wielkości w których można wybrać ile ostatnich pomiarów ma zostać wyświetlonych.
+
+Autorzy Damian Zachara
+
+Wersja 2.5.0

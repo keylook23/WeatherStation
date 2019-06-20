@@ -20,7 +20,6 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 public class ChartActivity extends AppCompatActivity {
@@ -53,8 +52,6 @@ public class ChartActivity extends AppCompatActivity {
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         float i = 0;
                         yValues.clear();
-//                        SimpleDateFormat stf = new SimpleDateFormat("hh:mm dd.MM.yyyy");
-
                         String sensorQuantity = getIntent().getStringExtra("sensorQuantity");
                         for (DataSnapshot ds : dataSnapshot.getChildren()) {
                             i = i + 1;
@@ -66,6 +63,7 @@ public class ChartActivity extends AppCompatActivity {
 
                             yValues.add(new Entry(i, Float.parseFloat(result)));
 
+
                             LineDataSet set1 = new LineDataSet(yValues, sensorQuantity);
                             set1.setFillAlpha(110);
 
@@ -74,6 +72,7 @@ public class ChartActivity extends AppCompatActivity {
 
                             LineData data = new LineData(dataSets);
                             mChart.setData(data);
+
                         }
                         mChart.invalidate();
                     }

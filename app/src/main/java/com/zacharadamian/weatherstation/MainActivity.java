@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ public class MainActivity extends AppCompatActivity {
     Spinner spQuantity;
     Spinner spUnit;
     Button btnGo, btnChart;
+    ImageButton btnInfo;
     TextView txtData;
     TextView txtTime;
     ArrayAdapter<CharSequence> adapter;
@@ -33,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
         txtTime = this.findViewById(R.id.txtTime);
         btnGo = findViewById(R.id.btnGo);
         btnChart = findViewById(R.id.btnChart);
+        btnInfo = findViewById(R.id.btnInfo);
         spSensor = findViewById(R.id.spSensor);
         spQuantity = findViewById(R.id.spQuantity);
         spUnit = findViewById(R.id.spUnit);
@@ -155,6 +158,13 @@ public class MainActivity extends AppCompatActivity {
                 openChartActivity();
             }
         });
+
+        btnInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openInfoActivity();
+            }
+        });
     }
 
     public void openChartActivity() {
@@ -165,6 +175,11 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("sensorType", sensorType);
         intent.putExtra("sensorQuantity", sensorQuantity);
         intent.putExtra("sensorUnit", sensorUnit);
+        startActivity(intent);
+    }
+
+    public void openInfoActivity() {
+        Intent intent = new Intent(this, InfoActivity.class);
         startActivity(intent);
     }
 }
