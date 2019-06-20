@@ -1,5 +1,6 @@
 package com.zacharadamian.weatherstation;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -60,10 +61,10 @@ public class MainActivity extends AppCompatActivity {
                     spQuantity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            if (spQuantity.getSelectedItem().equals("temperature")) {
+                            if (spQuantity.getSelectedItemPosition() == 0) {
                                 adapter = ArrayAdapter.createFromResource(getApplicationContext(),
                                         R.array.unit_arrays_temperature, android.R.layout.simple_dropdown_item_1line);
-                            } else if (spQuantity.getSelectedItem().equals("humidity")) {
+                            } else if (spQuantity.getSelectedItemPosition() == 1) {
                                 adapter = ArrayAdapter.createFromResource(getApplicationContext(),
                                         R.array.unit_arrays_humidity, android.R.layout.simple_dropdown_item_1line);
                             }
@@ -81,10 +82,10 @@ public class MainActivity extends AppCompatActivity {
                     spQuantity.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                         @Override
                         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                            if (spQuantity.getSelectedItem().equals("temperature")) {
+                            if (spQuantity.getSelectedItemPosition() == 0) {
                                 adapter = ArrayAdapter.createFromResource(getApplicationContext(),
                                         R.array.unit_arrays_temperature, android.R.layout.simple_dropdown_item_1line);
-                            } else if (spQuantity.getSelectedItem().equals("pressure")) {
+                            } else if (spQuantity.getSelectedItemPosition() == 1) {
                                 adapter = ArrayAdapter.createFromResource(getApplicationContext(),
                                         R.array.unit_arrays_pressure, android.R.layout.simple_dropdown_item_1line);
                             }
@@ -108,44 +109,63 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                final String sensorType, sensorQuantity, sensorUnit;
+                final String sensorType;
+                final String[] sensorQuantity = new String[1];
+                final String sensorUnit;
+
                 sensorType = spSensor.getSelectedItem().toString();
-                sensorQuantity = spQuantity.getSelectedItem().toString();
                 sensorUnit = spUnit.getSelectedItem().toString();
 
                 mDatabase = FirebaseDatabase.getInstance().getReference().child("sensors").child(sensorType);
                 Query last = mDatabase.orderByKey().limitToLast(1);
                 last.addValueEventListener(new ValueEventListener() {
+                    @SuppressLint("SetTextI18n")
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if (spQuantity.getSelectedItemPosition() == 0){
+                            sensorQuantity[0] = "temperature";
+                        } else if  (spSensor.getSelectedItemPosition() == 0 && spQuantity.getSelectedItemPosition() == 1){
+                            sensorQuantity[0] = "humidity";
+                        } else {
+                            sensorQuantity[0] = "pressure";
+                        }
+
                         for (DataSnapshot ds : dataSnapshot.getChildren()) {
-                            String result = ds.child(sensorQuantity).getValue().toString();
+                            String result = ds.child(sensorQuantity[0]).getValue().toString();
                             String time = ds.child("time").getValue().toString();
-                            String convert;
-//                            convert();
-                            if (spUnit.getSelectedItem().equals("°F")) {
-                                double convertResult = Double.parseDouble(result) * 9 / 5 + 32;
-                                convert = String.valueOf(convertResult);
-                            } else if (spUnit.getSelectedItem().equals("K")) {
-                                double convertResult = Double.parseDouble(result) + 273.15;
-                                convert = String.valueOf(convertResult);
-                            } else if (spUnit.getSelectedItem().equals("hPa")) {
-                                double convertResult = Double.parseDouble(result) / 100;
-                                convert = String.valueOf(convertResult);
-                            } else if (spUnit.getSelectedItem().equals("Psi")) {
-                                double convertResult = Double.parseDouble(result) / 6894.75729;
-                                convert = String.valueOf(convertResult);
-                            } else {
-                                double convertResult = Double.parseDouble(result);
-                                convert = String.valueOf(convertResult);
+                            double convert;
+                            String convertResult;
+
+                            switch (sensorUnit) {
+                                case "°F":
+                                    convert = Double.parseDouble(result) * 9 / 5 + 32;
+                                    convertResult = String.valueOf(convert);
+                                    break;
+                                case "K":
+                                    convert = Double.parseDouble(result) + 273.15;
+                                    convertResult = String.valueOf(convert);
+                                    break;
+                                case "hPa":
+                                    convert = Double.parseDouble(result) / 100;
+                                    convertResult = String.valueOf(convert);
+                                    break;
+                                case "Psi":
+                                    convert = Double.parseDouble(result) / 6894.75729;
+                                    convertResult = String.valueOf(convert);
+                                    break;
+                                default:
+                                    convert = Double.parseDouble(result);
+                                    convertResult = String.valueOf(convert);
+                                    break;
                             }
-                            txtData.setText(convert + " " + sensorUnit);
+                            txtData.setText(convertResult + " " + sensorUnit);
                             txtTime.setText(time);
                         }
                     }
 
+                    @SuppressLint("SetTextI18n")
                     @Override
-                    public void onCancelled(DatabaseError databaseError) {
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
                         txtData.setText("error");
                     }
                 });
@@ -168,12 +188,19 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void openChartActivity() {
+        String[] sensorQuantity = new String[1];
+        if (spQuantity.getSelectedItemPosition() == 0){
+            sensorQuantity[0] = "temperature";
+        } else if  (spSensor.getSelectedItemPosition() == 0 && spQuantity.getSelectedItemPosition() == 1){
+            sensorQuantity[0] = "humidity";
+        } else {
+            sensorQuantity[0] = "pressure";
+        }
         String sensorType = spSensor.getSelectedItem().toString();
-        String sensorQuantity = spQuantity.getSelectedItem().toString();
         String sensorUnit = spUnit.getSelectedItem().toString();
         Intent intent = new Intent(this, ChartActivity.class);
         intent.putExtra("sensorType", sensorType);
-        intent.putExtra("sensorQuantity", sensorQuantity);
+        intent.putExtra("sensorQuantity", sensorQuantity[0]);
         intent.putExtra("sensorUnit", sensorUnit);
         startActivity(intent);
     }
@@ -183,22 +210,3 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 }
-
-//    public void convert() {
-//        if (spUnit.getSelectedItem().equals("°F")) {
-//            double convertResult = Double.parseDouble(result) * 9 / 5 + 32;
-//            convert = String.valueOf(convertResult);
-//        } else if (spUnit.getSelectedItem().equals("K")) {
-//            double convertResult = Double.parseDouble(result) + 273.15;
-//            convert = String.valueOf(convertResult);
-//        } else if (spUnit.getSelectedItem().equals("hPa")) {
-//            double convertResult = Double.parseDouble(result) / 100;
-//            convert = String.valueOf(convertResult);
-//        } else if (spUnit.getSelectedItem().equals("Psi")) {
-//            double convertResult = Double.parseDouble(result) / 6894.75729;
-//            convert = String.valueOf(convertResult);
-//        } else {
-//            double convertResult = Double.parseDouble(result);
-//            convert = String.valueOf(convertResult);
-//        }
-//    }

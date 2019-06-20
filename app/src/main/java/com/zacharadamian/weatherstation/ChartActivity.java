@@ -49,7 +49,7 @@ public class ChartActivity extends AppCompatActivity {
                 Query last = mDatabase.orderByKey().limitToLast(Integer.parseInt(sensorResults));
                 last.addValueEventListener(new ValueEventListener() {
                     @Override
-                    public void onDataChange(DataSnapshot dataSnapshot) {
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                         float i = 0;
                         yValues.clear();
                         String sensorQuantity = getIntent().getStringExtra("sensorQuantity");
@@ -57,14 +57,39 @@ public class ChartActivity extends AppCompatActivity {
                             i = i + 1;
                             String result = ds.child(sensorQuantity).getValue().toString();
 //                            String time = ds.child("time").getValue().toString();
+                            String sensorUnit = getIntent().getStringExtra("sensorUnit");
+                            double convert;
+                            String convertResult;
 
+                            switch (sensorUnit) {
+                                case "°F":
+                                    convert = Double.parseDouble(result) * 9 / 5 + 32;
+                                    convertResult = String.valueOf(convert);
+                                    break;
+                                case "K":
+                                    convert = Double.parseDouble(result) + 273.15;
+                                    convertResult = String.valueOf(convert);
+                                    break;
+                                case "hPa":
+                                    convert = Double.parseDouble(result) / 100;
+                                    convertResult = String.valueOf(convert);
+                                    break;
+                                case "Psi":
+                                    convert = Double.parseDouble(result) / 6894.75729;
+                                    convertResult = String.valueOf(convert);
+                                    break;
+                                default:
+                                    convert = Double.parseDouble(result);
+                                    convertResult = String.valueOf(convert);
+                                    break;
+                            }
                             mChart.setDragEnabled(true);
                             mChart.setScaleEnabled(false);
 
-                            yValues.add(new Entry(i, Float.parseFloat(result)));
+                            yValues.add(new Entry(i, Float.parseFloat(convertResult)));
 
 
-                            LineDataSet set1 = new LineDataSet(yValues, sensorQuantity);
+                            LineDataSet set1 = new LineDataSet(yValues, sensorQuantity+" "+sensorUnit);
                             set1.setFillAlpha(110);
 
                             ArrayList<ILineDataSet> dataSets = new ArrayList<>();

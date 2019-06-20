@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name" translatable="false">Weather Station</string>
-    <string name="view_chart" translatable="false">View Chart</string>
-    <string name="view" translatable="false">View</string>
-    <string name="chart" translatable="false">Chart</string>
-    <string name="last" translatable="false">LAST</string>
+    <string name="app_name" translatable="false">Station météo</string>
+    <string name="view_chart" translatable="false">Voir le graphique</string>
+    <string name="view" translatable="false">Voir</string>
+    <string name="chart" translatable="false">Graphique</string>
+    <string name="last" translatable="false">DERNIER</string>
 
     <string-array name="sensor_arrays">
         <item>dht</item>
@@ -11,13 +11,13 @@
     </string-array>
 
     <string-array name="quantity_arrays_dht">
-        <item>temperature</item>
-        <item>humidity</item>
+        <item>température</item>
+        <item>humidité</item>
     </string-array>
 
     <string-array name="quantity_arrays_bmp">
-        <item>temperature</item>
-        <item>pressure</item>
+        <item>température</item>
+        <item>pression</item>
     </string-array>
 
     <string-array name="unit_arrays_temperature">
@@ -44,6 +44,5 @@
         <item>25</item>
         <item>30</item>
     </string-array>
-
 
 </resources>

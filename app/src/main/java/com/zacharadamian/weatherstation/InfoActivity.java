@@ -11,6 +11,7 @@ import java.io.InputStreamReader;
 
 public class InfoActivity extends AppCompatActivity {
     TextView txtInfo;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
