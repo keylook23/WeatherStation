@@ -4,12 +4,12 @@ W aplikacji są dostępne odczyty z dwóch czujników DHT11 i BMP180.
 
 DHT11 zapewnia pomiar temperatury i wilgotności.
 
-BMP180 również posiara posiada pomiar temperatury dużo bardziej dokładny niż DHT oraz pomiar ciśnienia.
+BMP180 umożliwia pomiar ciśnienia i bardziej dokładny pomiar temperatury niż czujnik DHT.
 
-Każda wielkość fizyczna posiada różne jednostki które może sobie użytkownik wedle własnego uznania zmieniać.
+Każda wartość fizyczna może być zmierzona w różnych jednostkach pomiarowych. Jednostkę pomiaru wybiera użytkownik według własnego zapotrzebowania.
 
-Projekt został także wyposażony w wykresy wielkości w których można wybrać ile ostatnich pomiarów ma zostać wyświetlonych.
+Aplikacja umożliwia również wyświetlenie wykresów zamierzonych wartości w postaci wykresu. Użytkownik ma możliwość wyboru ile ostatnich pomiarów ma zostać wyświetlonych.
 
-Autorzy Damian Zachara
+Autorzy Damian Zachara, Agnieszka Cwieląg, Patrycja Sadurska
 
-Wersja 2.5.0
+Wersja 2.6.2
